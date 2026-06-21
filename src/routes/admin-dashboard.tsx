@@ -73,17 +73,19 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="opacity-60">
+        <Card>
           <CardHeader>
-            <div className="size-10 rounded-lg bg-muted flex items-center justify-center mb-2">
-              <Users className="size-5 text-muted-foreground" />
+            <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center mb-2">
+              <Users className="size-5 text-primary" />
             </div>
             <CardTitle>Usuarios</CardTitle>
             <CardDescription>Gestionar jugadores y asignar roles.</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button variant="outline" className="w-full" disabled>
-              Próximamente
+            <Button asChild variant="outline" className="w-full">
+              <Link to="/admin/usuarios">
+                Ver lista <ArrowRight />
+              </Link>
             </Button>
           </CardContent>
         </Card>

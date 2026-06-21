@@ -20,3 +20,11 @@ export interface UpdateUserInput {
   roles?: UserRole[]
   status?: 'activo' | 'suspendido'
 }
+
+export interface CreateUserInput {
+  name: string
+  lastName?: string
+  email: string
+  password: string
+  roles?: UserRole[]
+}
