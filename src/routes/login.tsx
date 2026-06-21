@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useCurrentUser, useLogin } from '@/hooks/use-auth'
+import { InstallButton } from '@/components/install-button'
 import type { CurrentUser } from '@/types/auth'
 
 function destinationFor(user: CurrentUser): string {
@@ -108,6 +109,10 @@ export default function LoginPage() {
             </form>
           </CardContent>
         </Card>
+
+        <div className="mt-6 flex justify-center">
+          <InstallButton variant="ghost" />
+        </div>
       </div>
     </div>
   )
