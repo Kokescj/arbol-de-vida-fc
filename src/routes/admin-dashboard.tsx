@@ -3,11 +3,15 @@ import { Calendar, Users, ArrowRight, Plus, PlaySquare } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useMatches } from '@/lib/api-matches'
+import { useUsers } from '@/lib/api-users'
 
 export default function AdminDashboard() {
   const matches = useMatches()
+  const users = useUsers()
   const openMatches = matches.data?.filter((m) => m.status === 'open').length ?? 0
   const totalMatches = matches.data?.length ?? 0
+  const activeUsers = users.data?.filter((u) => u.status !== 'eliminado').length ?? 0
+  const deletedUsers = (users.data?.length ?? 0) - activeUsers
 
   return (
     <div className="space-y-6">
@@ -44,9 +48,11 @@ export default function AdminDashboard() {
         <Card>
           <CardHeader className="pb-3">
             <CardDescription>Usuarios registrados</CardDescription>
-            <CardTitle className="text-3xl">—</CardTitle>
+            <CardTitle className="text-3xl">{users.isPending ? '…' : activeUsers}</CardTitle>
           </CardHeader>
-          <CardContent className="text-xs text-muted-foreground">Endpoint admin pendiente</CardContent>
+          <CardContent className="text-xs text-muted-foreground">
+            {deletedUsers > 0 ? `${deletedUsers} eliminado${deletedUsers === 1 ? '' : 's'}` : 'Todos activos'}
+          </CardContent>
         </Card>
       </div>
 
