@@ -7,6 +7,7 @@ import AdminDashboard from '@/routes/admin-dashboard'
 import AdminMatchesList from '@/routes/admin-matches-list'
 import AdminMatchNew from '@/routes/admin-match-new'
 import AdminMatchDetail from '@/routes/admin-match-detail'
+import AdminUsersList from '@/routes/admin-users-list'
 import PartidoActivo from '@/routes/partido-activo'
 import PerfilPage from '@/routes/perfil'
 
@@ -23,6 +24,7 @@ function App() {
             <Route path="partidos" element={<AdminMatchesList />} />
             <Route path="partidos/nuevo" element={<AdminMatchNew />} />
             <Route path="partidos/:id" element={<AdminMatchDetail />} />
+            <Route path="usuarios" element={<AdminUsersList />} />
           </Route>
         </Route>
 

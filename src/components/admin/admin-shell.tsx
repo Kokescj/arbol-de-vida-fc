@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 const NAV = [
   { to: '/admin', label: 'Inicio', icon: LayoutDashboard, end: true },
   { to: '/admin/partidos', label: 'Partidos', icon: Calendar, end: false },
-  { to: '/admin/usuarios', label: 'Usuarios', icon: Users, end: false, disabled: true },
+  { to: '/admin/usuarios', label: 'Usuarios', icon: Users, end: false },
 ]
 
 export function AdminShell() {
@@ -69,8 +69,10 @@ export function AdminShell() {
         </div>
 
         <nav className="mx-auto max-w-6xl px-4 flex gap-1 overflow-x-auto">
-          {NAV.map(({ to, label, icon: Icon, end, disabled }) =>
-            disabled ? (
+          {NAV.map((item) => {
+            const { to, label, icon: Icon, end } = item
+            const disabled = 'disabled' in item ? item.disabled : false
+            return disabled ? (
               <span
                 key={to}
                 className="px-3 py-2.5 text-sm font-medium text-muted-foreground/60 cursor-not-allowed inline-flex items-center gap-2"
@@ -94,8 +96,8 @@ export function AdminShell() {
               >
                 <Icon className="size-4" /> {label}
               </NavLink>
-            ),
-          )}
+            )
+          })}
         </nav>
       </header>
 
