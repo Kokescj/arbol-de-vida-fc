@@ -6,14 +6,17 @@ import { InstallButton } from '@/components/install-button'
 import { MatchEnrollButton } from '@/components/match-enroll-button'
 import { MatchHeroBoard } from '@/components/match-hero-board'
 import { MatchStatusBadge } from '@/components/match-status-badge'
+import { UserAvatar } from '@/components/user-avatar'
 import { useCurrentUser, useLogout } from '@/hooks/use-auth'
 import { useMatchRealtime, type RealtimeStatus } from '@/hooks/use-match-realtime'
 import { useActiveMatch } from '@/lib/api-matches'
+import { useProfile } from '@/lib/api-profile'
 import { formatMatchDate } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
 export default function PartidoActivo() {
   const user = useCurrentUser()
+  const { data: profile } = useProfile()
   const logout = useLogout()
   const navigate = useNavigate()
   const { data: match, isPending, isError, error, refetch } = useActiveMatch()
@@ -30,9 +33,12 @@ export default function PartidoActivo() {
       <header className="border-b border-emerald-500/15 bg-black/40 backdrop-blur-md sticky top-0 z-20">
         <div className="mx-auto max-w-3xl px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="size-10 rounded-xl bg-lime-300/15 flex items-center justify-center shrink-0 ring-1 ring-lime-300/30">
-              <span className="text-sm font-black text-lime-300">AdV</span>
-            </div>
+            <UserAvatar
+              photoUrl={profile?.photoUrl}
+              name={profile?.name ?? user?.name}
+              className="size-10"
+              fallbackClassName="bg-lime-300/15 ring-1 ring-lime-300/30 text-lime-300 text-sm"
+            />
             <div className="min-w-0">
               <h1 className="text-lg font-bold leading-tight truncate text-white">
                 Próximo partido

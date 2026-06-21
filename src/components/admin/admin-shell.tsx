@@ -2,7 +2,9 @@ import { LogOut, Calendar, Users, LayoutDashboard, UserCircle2, PlaySquare } fro
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { InstallButton } from '@/components/install-button'
+import { UserAvatar } from '@/components/user-avatar'
 import { useCurrentUser, useLogout } from '@/hooks/use-auth'
+import { useProfile } from '@/lib/api-profile'
 import { cn } from '@/lib/utils'
 
 const NAV = [
@@ -13,6 +15,7 @@ const NAV = [
 
 export function AdminShell() {
   const user = useCurrentUser()
+  const { data: profile } = useProfile()
   const logout = useLogout()
   const navigate = useNavigate()
 
@@ -26,9 +29,12 @@ export function AdminShell() {
       <header className="border-b bg-card sticky top-0 z-10">
         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between gap-4">
           <Link to="/admin" className="flex items-center gap-3 min-w-0">
-            <div className="size-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-              <span className="text-xs font-black text-primary">AdV</span>
-            </div>
+            <UserAvatar
+              photoUrl={profile?.photoUrl}
+              name={profile?.name ?? user?.name}
+              className="size-9"
+              fallbackClassName="bg-primary/10 text-primary text-xs"
+            />
             <div className="min-w-0">
               <h1 className="text-base font-bold leading-tight truncate">Panel administrativo</h1>
               <p className="text-xs text-muted-foreground truncate">Hola, {user?.name}</p>
