@@ -47,7 +47,7 @@ export default function LoginPage() {
             alt="Árbol de Vida FC"
             width={144}
             height={144}
-            className="size-36 rounded-2xl object-cover ring-1 ring-border/60 shadow-[0_8px_32px_-8px_rgba(34,197,94,0.45)]"
+            className="size-36 [filter:drop-shadow(0_8px_24px_rgba(34,197,94,0.45))]"
           />
           <div>
             <h1 className="text-3xl font-black tracking-tight">Árbol de Vida FC</h1>
