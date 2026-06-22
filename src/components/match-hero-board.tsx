@@ -141,7 +141,7 @@ export function MatchHeroBoard({ match, currentUserId, canReorder }: Props) {
   return (
     <section
       ref={containerRef}
-      className="relative rounded-2xl overflow-hidden border border-emerald-500/15 bg-black/20 backdrop-blur-sm px-4 py-8 md:px-8 md:py-12"
+      className="relative rounded-2xl overflow-hidden border border-emerald-500/15 bg-black/20 backdrop-blur-sm px-4 py-8 md:px-8 md:py-12 overscroll-contain"
     >
       <div className="absolute inset-0 pointer-events-none opacity-[0.07]" aria-hidden>
         <div className="absolute inset-y-0 left-1/2 w-px bg-white" />

@@ -171,7 +171,7 @@ function FilledPlayerCard({
         'group relative rounded-md overflow-hidden aspect-[3/4] bg-gradient-to-br from-emerald-950 via-emerald-900/40 to-emerald-950 ring-1 ring-emerald-500/15 will-change-transform transition-[box-shadow,opacity,transform] duration-200',
         isCurrentUser && 'ring-2 ring-lime-300 shadow-[0_0_20px_-4px_rgba(190,242,100,0.6)]',
         !isCurrentUser && !isOver && TEAM_GLOW[slot.team],
-        enableDnd && 'cursor-grab active:cursor-grabbing',
+        enableDnd && 'cursor-grab active:cursor-grabbing select-none [-webkit-touch-callout:none]',
         isDragging && 'opacity-40 scale-95',
         isOver &&
           'ring-2 ring-yellow-300 shadow-[0_0_30px_-2px_rgba(253,224,71,0.7)] scale-[1.03]',
