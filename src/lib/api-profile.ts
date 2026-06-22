@@ -45,6 +45,18 @@ export function useUpdateProfile() {
   })
 }
 
+export function useChangePassword() {
+  return useMutation({
+    mutationFn: async (input: { currentPassword: string; newPassword: string }) => {
+      const { data } = await api.post<{ message: string }>(
+        '/profile/me/change-password',
+        input,
+      )
+      return data
+    },
+  })
+}
+
 export function useUploadProfilePhoto() {
   const qc = useQueryClient()
   return useMutation({

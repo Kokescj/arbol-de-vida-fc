@@ -332,6 +332,7 @@ function EditUserModal({ user, onClose }: { user: AdminUser; onClose: () => void
   const [status, setStatus] = useState<'activo' | 'suspendido'>(
     user.status === 'suspendido' ? 'suspendido' : 'activo',
   )
+  const [newPassword, setNewPassword] = useState('')
 
   function toggleRole(role: UserRole) {
     setRoles((prev) => (prev.includes(role) ? prev.filter((r) => r !== role) : [...prev, role]))
@@ -344,6 +345,7 @@ function EditUserModal({ user, onClose }: { user: AdminUser; onClose: () => void
       lastName: lastName || undefined,
       roles,
       status,
+      ...(newPassword ? { password: newPassword } : {}),
     }
     try {
       await update.mutateAsync({ id: user.id, input })
@@ -431,6 +433,24 @@ function EditUserModal({ user, onClose }: { user: AdminUser; onClose: () => void
                 </button>
               ))}
             </div>
+          </div>
+
+          <div className="space-y-2 border-t pt-4">
+            <Label htmlFor="edit-new-password">
+              Nueva contraseña <span className="text-muted-foreground font-normal">(opcional)</span>
+            </Label>
+            <Input
+              id="edit-new-password"
+              type="text"
+              autoComplete="new-password"
+              placeholder="Dejá vacío para no cambiar"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              minLength={newPassword ? 8 : undefined}
+            />
+            <p className="text-xs text-muted-foreground">
+              Si la cambiás, las sesiones activas del usuario quedan deslogueadas. Pasale la nueva contraseña por un canal seguro.
+            </p>
           </div>
 
           {errorMessage && <p className="text-sm text-destructive">{errorMessage}</p>}

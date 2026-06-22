@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ArrowLeft, Camera, Loader2, LogOut, Save, UserCircle2 } from 'lucide-react'
+import { ArrowLeft, Camera, KeyRound, Loader2, LogOut, Save, UserCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useCurrentUser, useLogout } from '@/hooks/use-auth'
 import {
+  useChangePassword,
   useProfile,
   useUpdateProfile,
   useUploadProfilePhoto,
@@ -260,10 +261,123 @@ export default function PerfilPage() {
                 </form>
               </CardContent>
             </Card>
+
+            <ChangePasswordCard />
           </>
         )}
       </main>
     </div>
+  )
+}
+
+function ChangePasswordCard() {
+  const change = useChangePassword()
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [localError, setLocalError] = useState<string | null>(null)
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+    setLocalError(null)
+    if (newPassword !== confirmPassword) {
+      setLocalError('La nueva contraseña y su confirmación no coinciden')
+      return
+    }
+    try {
+      await change.mutateAsync({ currentPassword, newPassword })
+      setCurrentPassword('')
+      setNewPassword('')
+      setConfirmPassword('')
+    } catch {
+      // El error queda en change.error
+    }
+  }
+
+  const apiError = (() => {
+    const err = change.error as { response?: { data?: { message?: string | string[] } } } | null
+    const msg = err?.response?.data?.message
+    return Array.isArray(msg) ? msg.join(', ') : msg ?? null
+  })()
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-base flex items-center gap-2">
+          <KeyRound className="size-4" /> Cambiar contraseña
+        </CardTitle>
+        <CardDescription>
+          Necesitas tu contraseña actual. Los demás dispositivos van a quedar deslogueados.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="current-password">Contraseña actual</Label>
+            <Input
+              id="current-password"
+              type="password"
+              autoComplete="current-password"
+              required
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              disabled={change.isPending}
+            />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="new-password">Nueva contraseña</Label>
+              <Input
+                id="new-password"
+                type="password"
+                autoComplete="new-password"
+                required
+                minLength={8}
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                disabled={change.isPending}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirm-password">Repetir contraseña</Label>
+              <Input
+                id="confirm-password"
+                type="password"
+                autoComplete="new-password"
+                required
+                minLength={8}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                disabled={change.isPending}
+              />
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Mínimo 8 caracteres, con mayúscula, minúscula, número y símbolo.
+          </p>
+
+          {localError && <p className="text-sm text-destructive">{localError}</p>}
+          {apiError && <p className="text-sm text-destructive">{apiError}</p>}
+          {change.isSuccess && (
+            <p className="text-sm text-primary">✓ Contraseña actualizada</p>
+          )}
+
+          <div className="flex justify-end">
+            <Button type="submit" disabled={change.isPending}>
+              {change.isPending ? (
+                <>
+                  <Loader2 className="animate-spin" /> Cambiando…
+                </>
+              ) : (
+                <>
+                  <KeyRound /> Cambiar contraseña
+                </>
+              )}
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
   )
 }
 
