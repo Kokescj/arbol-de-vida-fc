@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useCurrentUser, useLogout } from '@/hooks/use-auth'
+import { useThemeColor } from '@/hooks/use-theme-color'
 import {
   useChangePassword,
   useProfile,
@@ -30,6 +31,9 @@ export default function PerfilPage() {
   const update = useUpdateProfile()
   const upload = useUploadProfilePhoto()
   const fileInput = useRef<HTMLInputElement>(null)
+
+  // Header bg-card es blanco en light mode → status bar Android del mismo color.
+  useThemeColor('#ffffff')
 
   const [form, setForm] = useState<FormState>({
     name: '',

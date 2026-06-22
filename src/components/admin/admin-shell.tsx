@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { InstallButton } from '@/components/install-button'
 import { UserAvatar } from '@/components/user-avatar'
 import { useCurrentUser, useLogout } from '@/hooks/use-auth'
+import { useThemeColor } from '@/hooks/use-theme-color'
 import { useProfile } from '@/lib/api-profile'
 import { cn } from '@/lib/utils'
 
@@ -18,6 +19,9 @@ export function AdminShell() {
   const { data: profile } = useProfile()
   const logout = useLogout()
   const navigate = useNavigate()
+
+  // Header bg-card es blanco en light mode → status bar Android del mismo color.
+  useThemeColor('#ffffff')
 
   async function handleLogout() {
     await logout.mutateAsync()

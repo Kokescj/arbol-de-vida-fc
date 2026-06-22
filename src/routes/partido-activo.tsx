@@ -10,6 +10,7 @@ import { MatchStatusBadge } from '@/components/match-status-badge'
 import { UserAvatar } from '@/components/user-avatar'
 import { useCurrentUser, useLogout } from '@/hooks/use-auth'
 import { useMatchRealtime, type RealtimeStatus } from '@/hooks/use-match-realtime'
+import { useThemeColor } from '@/hooks/use-theme-color'
 import { useActiveMatch } from '@/lib/api-matches'
 import { useProfile } from '@/lib/api-profile'
 import { formatMatchDate } from '@/lib/format'
@@ -23,6 +24,9 @@ export default function PartidoActivo() {
   const { data: match, isPending, isError, error, refetch } = useActiveMatch()
   const realtimeStatus = useMatchRealtime(match?.id)
   const isAdmin = user?.roles.some((r) => r === 'admin' || r === 'supervisor') ?? false
+
+  // Status bar Android (PWA standalone) toma el color del header oscuro.
+  useThemeColor('#050d09')
 
   // Pintamos html+body con el mismo verde oscuro del pitch para que el
   // overscroll de iOS Safari (cuando el contenido es más corto que la vista
