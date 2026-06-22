@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
-import { Loader2 } from 'lucide-react'
+import { Navigate, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { Info, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -19,6 +19,8 @@ export default function LoginPage() {
   const location = useLocation()
   const navigate = useNavigate()
   const login = useLogin()
+  const [searchParams] = useSearchParams()
+  const sessionEndedReason = searchParams.get('reason')
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -55,6 +57,18 @@ export default function LoginPage() {
             <p className="text-sm text-muted-foreground">Inscríbete al próximo partido</p>
           </div>
         </div>
+
+        {sessionEndedReason && (
+          <div className="mb-4 rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 flex items-start gap-2 text-sm">
+            <Info className="size-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+            <div>
+              <p className="font-medium text-amber-900 dark:text-amber-200">Tu sesión se cerró</p>
+              <p className="text-amber-800/80 dark:text-amber-200/80 text-xs mt-0.5">
+                {sessionEndedReason}
+              </p>
+            </div>
+          </div>
+        )}
 
         <Card className="border-border/60 shadow-lg">
           <CardHeader className="space-y-1">

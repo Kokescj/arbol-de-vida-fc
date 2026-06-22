@@ -50,7 +50,14 @@ api.interceptors.response.use(
       return api.request(original)
     } catch (refreshError) {
       authStore.clear()
-      window.location.assign('/login')
+      // Pasamos el motivo al login para que muestre un mensaje claro
+      // ("sesión revocada" vs. "sesión expirada"). El backend manda el texto
+      // exacto en response.data.message; lo enviamos como query param.
+      const err = refreshError as AxiosError<{ message?: string | string[] }>
+      const backendMsg = err?.response?.data?.message
+      const reason = Array.isArray(backendMsg) ? backendMsg.join(' ') : backendMsg
+      const qs = reason ? `?reason=${encodeURIComponent(reason)}` : ''
+      window.location.assign(`/login${qs}`)
       return Promise.reject(refreshError)
     } finally {
       refreshing = null
