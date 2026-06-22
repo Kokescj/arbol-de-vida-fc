@@ -26,7 +26,7 @@ export function AdminShell() {
 
   return (
     <div className="min-h-svh bg-background">
-      <header className="border-b bg-card sticky top-0 z-10">
+      <header className="border-b bg-card sticky top-0 z-10 pt-[env(safe-area-inset-top)]">
         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between gap-4">
           <Link to="/admin" className="flex items-center gap-3 min-w-0">
             <UserAvatar

@@ -45,7 +45,7 @@ export default function PartidoActivo() {
 
   return (
     <div className="dark min-h-svh bg-pitch-vignette text-foreground">
-      <header className="border-b border-emerald-500/15 bg-black/40 backdrop-blur-md sticky top-0 z-20">
+      <header className="border-b border-emerald-500/15 bg-black/40 backdrop-blur-md sticky top-0 z-20 pt-[env(safe-area-inset-top)]">
         <div className="mx-auto max-w-3xl px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3 min-w-0">
             <UserAvatar
