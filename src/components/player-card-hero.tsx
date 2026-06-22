@@ -185,7 +185,7 @@ function FilledPlayerCard({
           alt={displayName}
           loading="lazy"
           draggable={false}
-          className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.1] mix-blend-luminosity group-hover:grayscale-0 group-hover:mix-blend-normal transition-all duration-300 pointer-events-none"
+          className="absolute inset-0 w-full h-full object-cover contrast-[1.1] [@media(hover:hover)]:grayscale [@media(hover:hover)]:mix-blend-luminosity group-hover:grayscale-0 group-hover:mix-blend-normal transition-all duration-300 pointer-events-none"
         />
       ) : (
         <div className="absolute inset-0 flex items-center justify-center">
