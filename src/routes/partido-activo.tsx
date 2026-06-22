@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { LogOut, MapPin, Clock, Users, Loader2, Wifi, WifiOff, Calendar, UserCircle2, LayoutDashboard } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
@@ -22,6 +23,20 @@ export default function PartidoActivo() {
   const { data: match, isPending, isError, error, refetch } = useActiveMatch()
   const realtimeStatus = useMatchRealtime(match?.id)
   const isAdmin = user?.roles.some((r) => r === 'admin' || r === 'supervisor') ?? false
+
+  // Pintamos html+body con el mismo verde oscuro del pitch para que el
+  // overscroll de iOS Safari (cuando el contenido es más corto que la vista
+  // o al hacer bounce) no muestre el blanco del body. Limpiamos al desmontar.
+  useEffect(() => {
+    const prevHtml = document.documentElement.style.backgroundColor
+    const prevBody = document.body.style.backgroundColor
+    document.documentElement.style.backgroundColor = '#050d09'
+    document.body.style.backgroundColor = '#050d09'
+    return () => {
+      document.documentElement.style.backgroundColor = prevHtml
+      document.body.style.backgroundColor = prevBody
+    }
+  }, [])
 
   async function handleLogout() {
     await logout.mutateAsync()
